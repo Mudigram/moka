@@ -1,13 +1,15 @@
-import { sanityClient } from '@/lib/sanity.client'
-import { storiesQuery } from '@/lib/sanity.queries'
+import Hero from '@/components/home/Hero'
+import Features from '@/components/home/Features'
+import FeaturedSeries from '@/components/home/FeaturedSeries'
+import Newsletter from '@/components/home/Newsletter'
 
-export default async function Home() {
-  const stories = await sanityClient.fetch(storiesQuery)
-
+export default function Home() {
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">Sanity Connected</h1>
-      <pre className="mt-4 text-sm">{JSON.stringify(stories, null, 2)}</pre>
-    </main>
+    <>
+      <Hero />
+      <Features />
+      <FeaturedSeries />
+      <Newsletter />
+    </>
   )
 }
