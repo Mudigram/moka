@@ -112,6 +112,18 @@ export const story = defineType({
       type: 'datetime',
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'readTime',
+      title: 'Read Time',
+      type: 'string',
+      description: 'e.g., 5 min read',
+    }),
+    defineField({
+      name: 'takeaways',
+      title: 'Key Takeaways / Lessons',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
   ],
   preview: {
     select: {

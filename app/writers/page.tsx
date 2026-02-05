@@ -1,7 +1,11 @@
 import WritersListing from '@/components/writers/WritersListing'
 import Newsletter from '@/components/home/Newsletter'
+import { client } from '@/sanity/lib/client'
+import { ALL_WRITERS_QUERY } from '@/sanity/lib/queries'
 
-export default function WritersPage() {
+export default async function WritersPage() {
+    const writers = await client.fetch(ALL_WRITERS_QUERY)
+
     return (
         <main className="min-h-screen bg-snow-pink">
             {/* Header */}
@@ -20,7 +24,7 @@ export default function WritersPage() {
 
             {/* Writers Grid Section */}
             <section className="pb-32 px-6 max-w-7xl mx-auto">
-                <WritersListing />
+                <WritersListing writers={writers} />
             </section>
 
             <Newsletter />

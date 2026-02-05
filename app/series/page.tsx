@@ -1,6 +1,10 @@
 import SeriesListing from '@/components/series/SeriesListing'
+import { client } from '@/sanity/lib/client'
+import { ALL_SERIES_QUERY } from '@/sanity/lib/queries'
 
-export default function SeriesPage() {
+export default async function SeriesPage() {
+    const series = await client.fetch(ALL_SERIES_QUERY)
+
     return (
         <main className="min-h-screen bg-snow-pink">
             {/* Header */}
@@ -18,7 +22,7 @@ export default function SeriesPage() {
 
             {/* Series Section */}
             <section className="pb-32 px-6 max-w-7xl mx-auto">
-                <SeriesListing />
+                <SeriesListing series={series} />
             </section>
         </main>
     )

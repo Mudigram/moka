@@ -1,6 +1,10 @@
 import StoriesListing from '@/components/stories/StoriesListing'
+import { client } from '@/sanity/lib/client'
+import { ALL_STORIES_QUERY } from '@/sanity/lib/queries'
 
-export default function StoriesPage() {
+export default async function StoriesPage() {
+    const stories = await client.fetch(ALL_STORIES_QUERY)
+
     return (
         <main className="min-h-screen bg-snow-pink">
             {/* Header */}
@@ -17,15 +21,8 @@ export default function StoriesPage() {
 
             {/* Listing Section */}
             <section className="pb-24 px-6 max-w-7xl mx-auto">
-                <StoriesListing />
+                <StoriesListing initialStories={stories} />
             </section>
-
-            {/* Pagination / CTA */}
-            <div className="pb-24 text-center">
-                <button className="bg-white border-2 border-electric-purple text-electric-purple px-10 py-4 rounded-2xl font-bold hover:bg-electric-purple hover:text-white transition-all active:scale-95 shadow-sm glow-purple">
-                    Load More Stories
-                </button>
-            </div>
         </main>
     )
 }

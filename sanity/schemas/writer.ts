@@ -47,6 +47,17 @@ export const writer = defineType({
       type: 'array',
       of: [{ type: 'url' }],
     }),
+    defineField({
+      name: 'color',
+      title: 'Display Color',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Electric Purple', value: 'electric-purple' },
+          { title: 'Warm Coral', value: 'warm-coral' },
+        ],
+      },
+    }),
   ],
   preview: {
     select: {

@@ -1,66 +1,18 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Instagram, Linkedin, Twitter } from 'lucide-react'
+import { urlFor } from '@/sanity/lib/image'
 
-const WRITERS = [
-    {
-        name: "Victorit",
-        role: "Lead Storyteller",
-        bio: "Focused on uncovering the human struggles and triumphs within the tech ecosystem across West Africa.",
-        stories: 14,
-        image: "/Featured.jpg", // Placeholder
-        color: "electric-purple"
-    },
-    {
-        name: "Amina",
-        role: "Creative Consultant",
-        bio: "Visual artist and writer exploring the intersection of traditional African aesthetics and modern design.",
-        stories: 8,
-        image: "/Featured2.jpg", // Placeholder
-        color: "warm-coral"
-    },
-    {
-        name: "Kofi",
-        role: "Career Advisor",
-        bio: "HR professional dedicated to providing actionable advice for the next generation of corporate leaders.",
-        stories: 12,
-        image: "/Featured.jpg", // Placeholder
-        color: "electric-purple"
-    },
-    {
-        name: "Destiny",
-        role: "Global Correspondent",
-        bio: "Narrating the lives of African professionals thriving in the diaspora and their connection back home.",
-        stories: 6,
-        image: "/Featured2.jpg", // Placeholder
-        color: "warm-coral"
-    },
-    {
-        name: "Ikechukwu",
-        role: "Finance Writer",
-        bio: "Breaking down economic trends and investment strategies for young African investors and entrepreneurs.",
-        stories: 9,
-        image: "/Featured2.jpg", // Placeholder
-        color: "electric-purple"
-    },
-    {
-        name: "Kwame",
-        role: "Healthcare Expert",
-        bio: "Doctor and advocate writing about the challenges and innovations in Africa's healthcare sector.",
-        stories: 5,
-        image: "/Featured.jpg", // Placeholder
-        color: "warm-coral"
-    }
-]
+interface WritersListingProps {
+    writers: any[]
+}
 
-export default function WritersListing() {
+export default function WritersListing({ writers }: WritersListingProps) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {WRITERS.map((writer, index) => (
+            {writers.map((writer, index) => (
                 <div
-                    key={index}
+                    key={writer._id || index}
                     className="group bg-white rounded-[3rem] p-10 border border-electric-purple/5 shadow-soft hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both"
                     style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -70,12 +22,18 @@ export default function WritersListing() {
                         <div className={`p-1.5 rounded-full border-2 transition-transform duration-500 group-hover:scale-105 ${writer.color === 'warm-coral' ? 'border-warm-coral' : 'border-electric-purple'
                             }`}>
                             <div className="w-32 h-32 rounded-full overflow-hidden relative">
-                                <Image
-                                    src={writer.image}
-                                    alt={writer.name}
-                                    fill
-                                    className="object-cover"
-                                />
+                                {writer.photo ? (
+                                    <Image
+                                        src={urlFor(writer.photo).width(300).url()}
+                                        alt={writer.name}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-electric-purple/5 flex items-center justify-center">
+                                        <span className="text-electric-purple/20 font-bold">{writer.name.charAt(0)}</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -92,20 +50,34 @@ export default function WritersListing() {
                             {writer.bio}
                         </p>
                         <div className="pt-2 text-xs font-bold text-foreground/40 uppercase tracking-widest">
-                            {writer.stories} Stories Contributed
+                            {writer.storyCount || 0} Stories Contributed
                         </div>
                     </div>
 
                     <div className="flex gap-4 pt-4 mt-auto">
-                        <div className="w-10 h-10 rounded-full bg-snow-pink flex items-center justify-center text-foreground/40 hover:bg-electric-purple hover:text-white transition-all cursor-pointer">
-                            <Twitter size={18} />
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-snow-pink flex items-center justify-center text-foreground/40 hover:bg-electric-purple hover:text-white transition-all cursor-pointer">
-                            <Linkedin size={18} />
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-snow-pink flex items-center justify-center text-foreground/40 hover:bg-warm-coral hover:text-white transition-all cursor-pointer">
-                            <Instagram size={18} />
-                        </div>
+                        {writer.socialLinks?.map((link: string, i: number) => (
+                            <a
+                                key={i}
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-full bg-snow-pink flex items-center justify-center text-foreground/40 hover:bg-electric-purple hover:text-white transition-all cursor-pointer"
+                            >
+                                {link.includes('twitter') || link.includes('x.com') ? <Twitter size={18} /> :
+                                    link.includes('linkedin') ? <Linkedin size={18} /> :
+                                        <Instagram size={18} />}
+                            </a>
+                        ))}
+                        {(!writer.socialLinks || writer.socialLinks.length === 0) && (
+                            <>
+                                <div className="w-10 h-10 rounded-full bg-snow-pink flex items-center justify-center text-foreground/40 hover:bg-electric-purple hover:text-white transition-all cursor-pointer">
+                                    <Twitter size={18} />
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-snow-pink flex items-center justify-center text-foreground/40 hover:bg-warm-coral hover:text-white transition-all cursor-pointer">
+                                    <Instagram size={18} />
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             ))}
