@@ -4,16 +4,20 @@ interface FeatureCardProps {
     title: string
     description: string
     icon: LucideIcon
+    isHighlight?: boolean
 }
 
-function FeatureCard({ title, description, icon: Icon }: FeatureCardProps) {
+function FeatureCard({ title, description, icon: Icon, isHighlight }: FeatureCardProps) {
     return (
         <div className="bg-white p-8 rounded-3xl border border-electric-purple/5 shadow-soft hover:shadow-xl transition-all duration-500 group">
-            <div className="w-14 h-14 bg-electric-purple/5 rounded-2xl flex items-center justify-center text-electric-purple mb-6 group-hover:bg-electric-purple group-hover:text-white transition-colors duration-500">
+            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-500 ${isHighlight
+                    ? 'bg-warm-coral/10 text-warm-coral group-hover:bg-warm-coral group-hover:text-white'
+                    : 'bg-electric-purple/5 text-electric-purple group-hover:bg-electric-purple group-hover:text-white'
+                }`}>
                 <Icon size={28} strokeWidth={1.5} />
             </div>
-            <h3 className="text-xl font-bold mb-4">{title}</h3>
-            <p className="text-foreground/60 leading-relaxed text-sm">
+            <h3 className="text-2xl font-bold mb-4">{title}</h3>
+            <p className="text-foreground/70 leading-relaxed text-base font-medium">
                 {description}
             </p>
         </div>
@@ -30,7 +34,8 @@ export default function Features() {
         {
             title: "Market Insights",
             description: "Navigate the unique landscape of the African job market with data-driven confidence.",
-            icon: Target
+            icon: Target,
+            isHighlight: true
         },
         {
             title: "Professional Community",

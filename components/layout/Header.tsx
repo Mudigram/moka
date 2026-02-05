@@ -25,13 +25,13 @@ export default function Header() {
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-10">
-                    <ul className="flex gap-8 text-sm font-medium text-foreground/80">
+                    <ul className="flex gap-10 text-base font-semibold text-foreground/80">
                         <li><Link href="/" className="hover:text-electric-purple transition-colors">Stories</Link></li>
                         <li><Link href="/series" className="hover:text-electric-purple transition-colors">Series</Link></li>
                         <li><Link href="/about" className="hover:text-electric-purple transition-colors">About</Link></li>
                     </ul>
 
-                    <Link href="/contact" className="bg-electric-purple text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-electric-purple/90 transition-all active:scale-95 glow-purple">
+                    <Link href="/contact" className="bg-electric-purple text-white px-8 py-3 rounded-xl text-base font-bold hover:bg-electric-purple/90 transition-all active:scale-95 glow-purple">
                         Join Now
                     </Link>
                 </nav>
